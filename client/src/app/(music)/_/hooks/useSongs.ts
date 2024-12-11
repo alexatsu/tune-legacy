@@ -6,7 +6,7 @@ import { SongsResponse } from "@/music/_/types";
 export const useSongsKey = `/api/songs/get-all`;
 
 function useSongs(session: Session | null, search?: string) {
-  const params = `?search=${search}`;
+  const params = search ? `?search=${search}` : "";
 
   const fetcher = async (url: string, params?: string) => {
     const response = await fetch(url + params, {
