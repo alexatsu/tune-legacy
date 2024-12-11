@@ -6,10 +6,10 @@ import { SongsResponse } from "@/music/_/types";
 export const useSongsKey = `/api/songs/get-all`;
 
 function useSongs(session: Session | null, search?: string) {
-  const fetcherKey = search ? `${useSongsKey}?search=${search}` : useSongsKey;
+  const params = `?search=${search}`;
 
-  const fetcher = async (url: string) => {
-    const response = await fetch(url, {
+  const fetcher = async (url: string, params?: string) => {
+    const response = await fetch(url + params, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ session }),
@@ -18,10 +18,14 @@ function useSongs(session: Session | null, search?: string) {
     return response.json();
   };
 
-  const { data, error, isLoading, mutate } = useSWR<SongsResponse>(fetcherKey, fetcher, {
-    revalidateOnFocus: false,
-    shouldRetryOnError: false,
-  });
+  const { data, error, isLoading, mutate } = useSWR<SongsResponse>(
+    [useSongsKey, params],
+    ([url, params]: [string, string | undefined]) => fetcher(url, params),
+    {
+      revalidateOnFocus: false,
+      shouldRetryOnError: false,
+    },
+  );
 
   const songs = data?.songs;
 
