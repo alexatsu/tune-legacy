@@ -1,0 +1,24 @@
+@use "@/sass/mixins/skeletonAnimation.module.scss" as *;
+
+.chartsListSkeletonContainer {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+  .chartsListSkeleton {
+    background-color: var(--widget-bg);
+    padding: 0 1rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    min-width: 15%;
+    flex-grow: 1;
+    height: 54px;
+
+    @include skeletonAnimation();
+  }
+}

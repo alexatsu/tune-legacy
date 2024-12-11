@@ -1,5 +1,5 @@
 "use client";
-import { Dispatch, memo, SetStateAction } from "react";
+import { Dispatch, memo, SetStateAction, useMemo, useState } from "react";
 
 import { randomRGBPastelColor } from "@/app/_/utils/functions";
 import { ChartsCategories } from "@/app/(music)/_/types";
@@ -12,40 +12,33 @@ type CategoriesProps = {
 };
 
 const Categories = memo(function Categories({ data, setSelectedCategory }: CategoriesProps) {
-  const attachBorderToCategories = () => {
-    const category = Object.keys(data);
-
-    type Category = { category: string; border: string };
-    const result = [] as Category[];
-
-    for (const chart of category) {
+  const categoriesWithBorders = useMemo(() => {
+    return Object.keys(data).map((chart) => {
       const [r, g, b] = randomRGBPastelColor();
       const categoryName = chart.split("-chart")[0];
-      const randomBorder = `1px solid rgb(${r},${g},${b}, 0.7)`;
-      result.push({ category: categoryName, border: randomBorder });
-    }
-    return result;
-  };
+      const border = `1px solid rgba(${r}, ${g}, ${b}, 0.7)`;
+      return { category: categoryName, border };
+    });
+  }, [data]);
 
-  const categories = attachBorderToCategories();
+  const handleCategoryClick = (category: string) => {
+    const selectedCategory = `${category}-chart`;
+    setSelectedCategory(selectedCategory);
+    localStorage.setItem("selectedCategory", selectedCategory);
+  };
 
   return (
     <ul className={styles.categoriesList}>
-      {categories.map(({ category, border }) => {
-        return (
-          <li
-            className={styles.categriesListItem}
-            style={{ border }}
-            key={crypto.randomUUID()}
-            onClick={() => {
-              setSelectedCategory(category + "-chart");
-              localStorage.setItem("selectedCategory", category + "-chart");
-            }}
-          >
-            {category}
-          </li>
-        );
-      })}
+      {categoriesWithBorders.map(({ category, border }) => (
+        <li
+          className={styles.categriesListItem}
+          style={{ border }}
+          key={category}
+          onClick={() => handleCategoryClick(category)}
+        >
+          {category}
+        </li>
+      ))}
     </ul>
   );
 });

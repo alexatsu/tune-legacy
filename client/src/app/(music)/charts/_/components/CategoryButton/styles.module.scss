@@ -1,0 +1,29 @@
+@use "@/sass/abstracts/colors.scss" as *;
+
+.dropdown {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.15s ease;
+  padding: 0.2rem 1rem;
+  border-radius: 0.5rem;
+  background-color: $widget-bg;
+
+  @media screen and (width <= 576px) {
+    padding: 0.2rem 0.5rem;
+  }
+
+  &:hover {
+    background-color: $widget-bg-hover;
+  }
+
+  .dropdownIcon {
+    color: $accent;
+    margin-right: 0.5rem;
+  }
+
+  .dropdownIconOpen {
+    transform: rotate(180deg);
+    @extend .dropdownIcon;
+  }
+}
