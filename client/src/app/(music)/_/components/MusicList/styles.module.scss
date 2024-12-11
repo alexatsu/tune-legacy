@@ -31,7 +31,7 @@
 .musicList {
   list-style: none;
   color: $text;
-  height: 100%;
+  height: fit-content;
   // height: calc(100% - $page-title-height);
   overflow-y: auto;
 
@@ -42,7 +42,7 @@
     background-color: $accent;
     border-left: 4px $bg solid;
   }
-  
+
   &::-webkit-scrollbar {
     width: 8px;
   }

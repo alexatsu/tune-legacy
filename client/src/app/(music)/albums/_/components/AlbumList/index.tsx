@@ -36,7 +36,7 @@ export function AlbumList() {
     <div className={styles.AlbumList}>
       <CreateAlbumModal />
       {payload?.map(({ id, gradient, title, description }) => (
-        <Link key={id} href={`/albums/${title}`} style={{ textDecoration: "none" }}>
+        <Link key={id} href={`/albums/${id}`} style={{ textDecoration: "none" }}>
           <AlbumCard key={id} gradient={gradient} title={title} description={description} />
         </Link>
       ))}

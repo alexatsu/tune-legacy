@@ -15,10 +15,8 @@ export function TitleDesktop({ currentPlayRef }: TitleProps) {
   const pathname = usePathname();
   return (
     <>
-      {/* {isLoading && <div className={styles.skeletonTitleDesktop}>Loading</div>} */}
       <div className={styles.titleDesktop}>
-        {pathname !== "/streams" && (currentPlayRef.current?.title || "No song selected")}
-        {pathname === "/streams" && (currentPlayRef.current?.title || "No stream selected")}
+        {currentPlayRef.current?.title || "No song selected"}
       </div>
     </>
   );

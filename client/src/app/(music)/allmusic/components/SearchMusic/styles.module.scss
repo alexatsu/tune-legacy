@@ -1,0 +1,22 @@
+@use "@/sass/abstracts/colors.scss" as *;
+
+.input {
+  background-color: $widget-bg;
+  padding: 1rem;
+  border: none;
+  border-radius: 1rem;
+  transition: 0.15s outline ease-out;
+  color: $text;
+  width: 60%;
+  margin-bottom: 0.5rem;
+
+  @media screen and (width <= 576px) {
+    width: 100%;
+  }
+
+  transition: all 0.15s linear;
+  &:focus {
+    background-color: $widget-bg-hover;
+    outline: none;
+  }
+}

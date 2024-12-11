@@ -43,7 +43,7 @@
 .userImage {
   border-radius: 0.5rem;
   cursor: pointer;
-  box-shadow: 0px 1px 1px 0px $accent;
+  border-bottom: $accent-fade 1px solid;
   width: 46px;
   height: 46px;
 

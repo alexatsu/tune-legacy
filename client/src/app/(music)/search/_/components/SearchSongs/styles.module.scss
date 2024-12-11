@@ -24,7 +24,7 @@
     cursor: pointer;
     position: absolute;
     right: 10px;
-    top: 35%;
+    top: 30%;
 
     svg path {
       transition: 0.15s stroke linear;
@@ -40,7 +40,7 @@
 
 .input {
   background-color: $widget-bg;
-  padding: 1.35rem;
+  padding: 1rem;
   border: none;
   border-radius: 1rem;
   transition: 0.15s outline ease-out;

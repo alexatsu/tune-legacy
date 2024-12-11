@@ -3,9 +3,13 @@ import useSWR from "swr";
 
 import { SongsResponse } from "@/music/_/types";
 
-function useSongs(session: Session | null) {
-  const fetchAllMusic = async () => {
-    const response = await fetch(`/api/songs/get-all`, {
+export const useSongsKey = `/api/songs/get-all`;
+
+function useSongs(session: Session | null, search?: string) {
+  const fetcherKey = search ? `${useSongsKey}?search=${search}` : useSongsKey;
+
+  const fetcher = async (url: string) => {
+    const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ session }),
@@ -14,11 +18,10 @@ function useSongs(session: Session | null) {
     return response.json();
   };
 
-  const { data, error, isLoading, mutate } = useSWR<SongsResponse>(
-    `/api/songs/get-all`,
-    fetchAllMusic,
-    { revalidateOnFocus: false },
-  );
+  const { data, error, isLoading, mutate } = useSWR<SongsResponse>(fetcherKey, fetcher, {
+    revalidateOnFocus: false,
+    shouldRetryOnError: false,
+  });
 
   const songs = data?.songs;
 

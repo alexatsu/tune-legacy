@@ -37,6 +37,3 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 yarn.lock
-
-# temp files
-src/app/api/streams/all/stream-info.json

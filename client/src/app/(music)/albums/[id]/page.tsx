@@ -51,10 +51,12 @@ export default async function Page({ params }: { params: { title: string } }) {
     <div className={styles.albumIdPageContainer}>
       <div className={styles.AlbumHead}>
         <div className={styles.Cover} style={{ background: data?.Albums[0].gradient }}></div>
+
         <div className={styles.Content}>
           <h1 className={styles.Title}>{albumTitle}</h1>
           <span className={styles.Description}>{description}</span>
         </div>
+
         <AlbumMenuDropdown albumId={id} />
       </div>
 

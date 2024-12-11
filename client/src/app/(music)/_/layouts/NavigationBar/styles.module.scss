@@ -36,17 +36,21 @@
     cursor: pointer;
     height: auto;
 
-    svg path {
-      transition: fill 0.15s ease;
+    .link {
+      & > :first-child {
+        transition: all 0.15s ease;
+      }
     }
 
-    &:hover svg path {
-      fill: $accent-darker;
+    &:hover {
+      .link {
+        transition: all 0.15s ease;
+        & > :first-child {
+          stroke: $accent;
+          color: $accent;
+        }
+      }
     }
-  }
-
-  .active svg path {
-    fill: $accent;
   }
 }
 
@@ -69,18 +73,11 @@
     justify-content: center;
     align-items: center;
 
-    a svg path {
-      transition: 0.15s all linear;
+    &:hover {
+      .link {
+        color: $accent;
+      }
     }
-
-    a:hover svg path {
-      cursor: pointer;
-      fill: $accent-darker;
-    }
-  }
-
-  .active svg path {
-    fill: $accent;
   }
 }
 
