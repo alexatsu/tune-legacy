@@ -1,5 +1,6 @@
 "use client";
 
+import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,7 +12,7 @@ import { useShallow } from "zustand/react/shallow";
 import { MenuDropdown } from "@/app/_/components/MenuDropdown";
 import { usePlayerContext } from "@/app/_/providers";
 import { useStreamStore } from "@/app/_/store";
-import { handleFetch } from "@/app/_/utils/functions";
+import { customRevalidatePath, handleFetch } from "@/app/_/utils/functions";
 import { playerIcons } from "@/music/_/components/icons/player";
 import { useAlbums, useSongs } from "@/music/_/hooks";
 import { Album, AlbumSongs, ChartSongs, Song, SongsResponse } from "@/music/_/types";
@@ -308,8 +309,9 @@ export function MusicList({ data, session, albumId }: MusicList) {
       album,
       song,
     });
-    albumsMutate();
     setCurrentScrollableAlbumId(album.id);
+    customRevalidatePath("/albums/[id]", "page");
+    albumsMutate();
   };
 
   useEffect(() => {
@@ -368,7 +370,13 @@ export function MusicList({ data, session, albumId }: MusicList) {
       },
       {
         node: pathname === "/allmusic" && (
-          <li className={styles.deleteSong} onClick={() => deleteFromMyMusic(song.id)}>
+          <li
+            className={styles.deleteSong}
+            onClick={() => {
+              deleteFromMyMusic(song.id);
+              albumsMutate();
+            }}
+          >
             x from music
           </li>
         ),
