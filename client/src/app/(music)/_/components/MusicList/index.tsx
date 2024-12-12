@@ -250,11 +250,11 @@ export function MusicList({ data, session, albumId }: MusicList) {
       session,
     });
 
-    mutate(`/api/songs/get-all`);
     setOpenDropdownIndex(null);
     if (currentPayload.current) {
       deleteFromCurrentPayload(songId);
     }
+    songsMutate();
   };
 
   const handleMusicListDropdownToggle = useCallback(
