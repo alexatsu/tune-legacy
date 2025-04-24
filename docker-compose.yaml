@@ -10,7 +10,7 @@ services:
       # remove old container+image if new packages are added
     ports:
       # hostport:containerport
-      - 3000:3000
+      - 4000:4000
     env_file:
       - ./client/.env
     environment:
@@ -31,7 +31,7 @@ services:
     container_name: db
     ports:
       # hostport:containerport
-      - 5433:5432
+      - 5441:5432
     environment:
       # test if i need these variables
       - POSTGRES_USER=postgres
@@ -63,7 +63,7 @@ services:
       context: ./charts-service
       dockerfile: ./Dockerfile
     ports:
-      - 8010:8010
+      - 8011:8010
     volumes:
       - ./charts-service:/app
     networks:
@@ -76,7 +76,7 @@ services:
       context: ./parser-service
       dockerfile: ./Dockerfile
     ports:
-      - 8020:8020
+      - 8021:8020
 
     volumes:
       - ./parser-service:/app

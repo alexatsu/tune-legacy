@@ -22,7 +22,6 @@ You can check it [here](https://tuneaudio.fun)
 Tune is developed in my free time from work<br />
 >(WEB)-version Project done about 90%. Missing only Themes and Recommendations<br />
 >(DESKTOP|MOBILE)-versions. Researching to make efficient transfer to desktop and mobile versions of this app.<br/>
->(TELEGRAM)-version. Looking for a way to create a branch for a web app.<br/>
 
 If you'd like to peek in the management board, check [here](https://github.com/users/AlexanderKudr/projects/9/views/1)
 

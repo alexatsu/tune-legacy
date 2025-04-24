@@ -1,9 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl"]
+  binaryTargets = ["native", "linux-musl", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -17,15 +14,14 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -48,107 +44,94 @@ model VerificationToken {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  name          String?
+  settingsId    String?   @unique
   accounts      Account[]
+  Albums        Album[]   @relation("userAlbums")
   sessions      Session[]
   Songs         Song[]    @relation("userSongs")
-  Albums        Album[]   @relation("userAlbums")
-
-  settings   Settings? @relation("userSettings", fields: [settingsId], references: [id])
-  settingsId String?   @unique
+  settings      Settings? @relation("userSettings", fields: [settingsId], references: [id])
 }
 
 model Song {
-  id String @id @default(cuid())
-
+  id       String   @id @default(cuid())
   title    String
   duration String
   url      String
   urlId    String
   addedAt  DateTime
+  userId   String
   cover    String?
-
-  userId String
-  User   User   @relation("userSongs", fields: [userId], references: [id])
+  User     User     @relation("userSongs", fields: [userId], references: [id])
 }
 
 model Album {
-  id String @id @default(cuid())
-
+  id          String      @id @default(cuid())
   title       String
   description String
   cover       String?
   gradient    String
   userId      String
-  albumSongs  AlbumSong[] @relation("albumSong")
   User        User        @relation("userAlbums", fields: [userId], references: [id])
+  albumSongs  AlbumSong[] @relation("albumSong")
 }
 
 model AlbumSong {
-  id       String  @id @default(cuid())
   albumId  String
-  title    String
-  duration String
   cover    String?
+  duration String
+  title    String
   url      String
   urlId    String
+  id       String  @id @default(cuid())
   Album    Album   @relation("albumSong", fields: [albumId], references: [id])
 }
 
 model Settings {
-  id String @id @default(cuid())
-
+  id               String         @id @default(cuid())
   themesSettingsId String         @unique
+  userId           String?
   themesSettings   ThemesSettings @relation("themesSettings", fields: [themesSettingsId], references: [id])
-
-  user   User?   @relation("userSettings")
-  userId String?
+  user             User?          @relation("userSettings")
 }
 
 model ThemesSettings {
-  id String @id @default(cuid())
-
-  currentThemeId String       @unique
-  currentTheme   CurrentTheme @relation("currentTheme", fields: [currentThemeId], references: [id])
-
+  id                String              @id @default(cuid())
+  currentThemeId    String              @unique
+  customThemes      CustomThemes[]      @relation("customThemes")
   quickAccessThemes QuickAccessThemes[] @relation("quickAccessThemes")
-
-  customThemes CustomThemes[] @relation("customThemes")
-
-  settings Settings? @relation("themesSettings")
+  settings          Settings?           @relation("themesSettings")
+  currentTheme      CurrentTheme        @relation("currentTheme", fields: [currentThemeId], references: [id])
 }
 
 model CurrentTheme {
-  id         String @id @default(cuid())
-  background String
-  widgets    String
-  accent     String
-  text       String
-
+  id             String          @id @default(cuid())
+  background     String
+  widgets        String
+  accent         String
+  text           String
   themesSettings ThemesSettings? @relation("currentTheme")
 }
 
 model QuickAccessThemes {
-  id         String @id @default(cuid())
-  background String
-  widgets    String
-  accent     String
-  text       String
-
+  id               String          @id @default(cuid())
+  background       String
+  widgets          String
+  accent           String
+  text             String
   themesSettingsId String?
   themesSettings   ThemesSettings? @relation("quickAccessThemes", fields: [themesSettingsId], references: [id])
 }
 
 model CustomThemes {
-  id         String @id @default(cuid())
-  background String
-  widgets    String
-  accent     String
-  text       String
-
+  id               String          @id @default(cuid())
+  background       String
+  widgets          String
+  accent           String
+  text             String
   themesSettingsId String?
   themesSettings   ThemesSettings? @relation("customThemes", fields: [themesSettingsId], references: [id])
 }

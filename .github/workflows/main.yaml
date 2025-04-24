@@ -25,7 +25,7 @@ jobs:
         continue-on-error: true
 
       - name: run db
-        run: docker run -d --name db -v db:/var/lib/postgresql/data -p 5432:5432 --restart always -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} postgres:16-alpine
+        run: docker run -d --name db -v db:/var/lib/postgresql/data -p 5440:5432 --restart always -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} postgres:16-alpine
 
       - name: connect db to tune network
         run: docker network connect tune db
@@ -55,7 +55,7 @@ jobs:
         run: docker build -t tune-client-production -f ./client/Dockerfile.prod --build-arg GOOGLE_ID="${{ secrets.GOOGLE_ID }}" --build-arg GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }} --build-arg GH_ID=${{ secrets.GH_ID }} --build-arg GH_SECRET=${{ secrets.GH_SECRET }} --build-arg NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }} --build-arg NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} --build-arg MUSIC_SERVICE_CONTAINER=${{ secrets.MUSIC_SERVICE_CONTAINER }} --build-arg PARSER_SERVICE_CONTAINER=${{ secrets.PARSER_SERVICE_CONTAINER }} --build-arg CLIENT_URL=${{ secrets.CLIENT_URL }} .
 
       - name: run client
-        run: docker run -it -d --name tune-c -p 3000:3000 --restart always tune-client-production
+        run: docker run -it -d --name tune-c -p 4000:4000 --restart always tune-client-production
 
       - name: connect client to tune network
         run: docker network connect tune tune-c

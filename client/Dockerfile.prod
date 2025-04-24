@@ -23,7 +23,7 @@ RUN npm install -g pnpm
 RUN pnpm install 
 
 COPY ./client/prisma ./prisma
-RUN pnpx prisma generate
+RUN pnpm --package=prisma@5.18.0 dlx prisma generate
 
 
 # general env for next.js
@@ -47,5 +47,7 @@ RUN pnpm run build;
 
 WORKDIR /app
 
+ENV PORT "4000"
 ENV HOSTNAME "0.0.0.0"
+
 CMD ["pnpm","run", "start"] 
